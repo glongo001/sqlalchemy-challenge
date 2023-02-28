@@ -16,8 +16,8 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(autoload_with=engine)
 # Save references to each table
-Measurement = Base.classes.measurement
-Station = Base.classes.station
+measurement = Base.classes.measurement
+station = Base.classes.station
 
 #Create app
 app = Flask(__name__)
@@ -46,8 +46,8 @@ def precipitation():
     most_recent = dt.datetime(2017, 8, 23)
     one_year_before = most_recent - dt.timedelta(days=365)
     #Get precipitation data for last 12 months
-    precipitation = session.query(Measurement.date, Measurement.prcp).\
-                    filter(Measurement.date >= one_year_before).all()
+    precipitation = session.query(measurement.date, measurement.prcp).\
+                    filter(measurement.date >= one_year_before).all()
     
     #Close session
     session.close()
@@ -63,7 +63,7 @@ def precipitation():
 @app.route("/api/v1.0/stations")
 def stations():
     #Get stations
-    all_stations = session.query(Station.station).all()
+    all_stations = session.query(station.station).all()
     
     #Close session
     session.close()
@@ -80,12 +80,12 @@ def tobs():
     most_recent = dt.datetime(2017, 8, 23)
     one_year_before = most_recent - dt.timedelta(days=365)
     #Find the active stations
-    active_stations = session.query(Measurement.station, func.count(Measurement.station)).\
-    group_by(Measurement.station).order_by(func.count(Measurement.station).desc()).all()
+    active_stations = session.query(measurement.station, func.count(measurement.station)).\
+        group_by(measurement.station).order_by(func.count(measurement.station).desc()).all()
     #Get the most active station
     most_active = active_stations[0][0]
     #Get dates and temperature observations for the most-active station during last 12 months
-    most_active_12_months = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date >= one_year_before, Measurement.station == most_active).all()
+    most_active_12_months = session.query(measurement.date, measurement.tobs).filter(measurement.date >= one_year_before, measurement.station == most_active).all()
     
     #Close session
     session.close()
@@ -102,7 +102,7 @@ def temperature_stats(start=None, end=None):
     try:
         #If no end date is provided, use the last date of available data
         if end is None:
-            end = session.query(Measurement.date).order_by(Measurement.date.desc()).first()[0]
+            end = session.query(measurement.date).order_by(measurement.date.desc()).first()[0]
             
         #Convert start and end dates to datetime objects
         start_date = dt.datetime.strptime(start, '%Y-%m-%d').date()
@@ -112,8 +112,8 @@ def temperature_stats(start=None, end=None):
         return jsonify({"error": "Invalid date format. Please use YYYY-MM-DD."}), 400
     
     #Query for the minimum, average, and maximum temperatures
-    range_tobs = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
-                filter(Measurement.date >= start_date, Measurement.date <= end_date).all()
+    range_tobs = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).\
+                filter(measurement.date >= start_date, measurement.date <= end_date).all()
 
     #Close session
     session.close()
