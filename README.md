@@ -1,5 +1,5 @@
-# Unit 10 Homework: Surf’s Up
-I decided to do a climate analysis before going on a trip to Honolulu,Hawaii.
+# Surf’s Up
+I did a climate analysis before going on a trip to Honolulu,Hawaii.
 
 ## Part 1: Analyze and Explore the Climate Data
 1. First, I created a SQLAlchemy engine to connect to my SQLite database(hawaii.sqlite).
