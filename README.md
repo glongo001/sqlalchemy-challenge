@@ -55,9 +55,5 @@ I did a climate analysis before going on a trip to Honolulu,Hawaii.
 3. In /api/v1.0/stations I displayed a list of the 9 stations in the dataset.
 
 4. In /api/v1.0/tobs I displayed the temperature observations for the most active station 'USC00519281' during the last 12 months of data.
-<<<<<<< Updated upstream
-5. In /api/v1.0/start & /api/v1.0/start/end, I displayed a list that calculated the minimumm temperature, the average temperature and the maximum temperature for the 'start' and 'end' dates entered in the url by the user.
-=======
 
 5. In /api/v1.0/start & /api/v1.0/start/end, I displayed a list that calculated the minimumm temperature, the average temperature and the maximum temperature for the 'start' and 'end' dates entered in the url by the user.
->>>>>>> Stashed changes
